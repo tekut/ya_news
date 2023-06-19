@@ -10,3 +10,8 @@ def author(django_user_model):
 def author_client(author, client):
     client.force_login(author)
     return client
+
+
+def test_with_client(client):
+    response = client.get('/')
+    assert response.status_code == 200 
