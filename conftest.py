@@ -1,5 +1,6 @@
-import pytest
 from datetime import datetime, timedelta
+
+import pytest
 from django.conf import settings
 from django.utils import timezone
 
@@ -31,7 +32,7 @@ def comment(news, author):
     comment = Comment.objects.create(
         news=news,
         author=author,
-        text='Text',
+        text='Текст комментария',
 
     )
     return comment
@@ -66,3 +67,10 @@ def two_comments(author, news):
         comment.created = timezone.now() + timedelta(days=i)
         comment.save()
     return two_comments
+
+
+@pytest.fixture
+def form_data():
+    return {
+        'text': 'Обновлённый комментарий',
+    }

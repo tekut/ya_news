@@ -1,7 +1,6 @@
+import pytest
 from django.conf import settings
 from django.urls import reverse
-
-import pytest
 
 pytestmark = pytest.mark.django_db
 
@@ -16,7 +15,7 @@ def test_news_count(client, all_news):
 
 def test_news_order(client, all_news):
     '''Новости отсортированы от самой свежей к самой старой.
-    Свежие новости в начале списка.'''
+    Свежие новости в начале списка'''
     response = client.get(reverse('news:home'))
     object_list = response.context['object_list']
     all_dates = [news.date for news in object_list]
@@ -26,7 +25,7 @@ def test_news_order(client, all_news):
 
 def test_comments_order(client, news, two_comments):
     '''Комментарии на странице отдельной новости отсортированы
-    в хронологическом порядке: старые в начале списка, новые — в конце.'''
+    в хронологическом порядке: старые в начале списка, новые — в конце'''
     response = client.get(reverse('news:detail', args=(news.pk,)))
     assert 'news' in response.context
     news = response.context['news']

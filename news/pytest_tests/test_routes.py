@@ -1,6 +1,5 @@
-from http import HTTPStatus
-
 import pytest
+from http import HTTPStatus
 from pytest_django.asserts import assertRedirects
 from django.urls import reverse
 
@@ -13,7 +12,7 @@ pytestmark = pytest.mark.django_db
 )
 def test_pages_availability_for_anonymous_user(client, name):
     '''Главная страница, страницы регистрации пользователей,
-    входа в учётную запись и выхода из неё доступны анонимным пользователям.'''
+    входа в учётную запись и выхода из неё доступны анонимным пользователям'''
     url = reverse(name)
     response = client.get(url)
     assert response.status_code == HTTPStatus.OK
@@ -44,7 +43,7 @@ def test_pages_availability_for_different_users(
     автору комментария.
     Авторизованный пользователь не может зайти на страницы
       редактирования или удаления чужих комментариев
-      (возвращается ошибка 404).'''
+      (возвращается ошибка 404)'''
     url = reverse(name, args=(comment.pk,))
     response = parametrized_client.get(url)
     assert response.status_code == expected_status
@@ -60,7 +59,7 @@ def test_pages_availability_for_different_users(
 def test_redirects(client, name, args):
     '''При попытке перейти на страницу редактирования или
     удаления комментария анонимный пользователь перенаправляется
-    на страницу авторизации.'''
+    на страницу авторизации'''
     login_url = reverse('users:login')
     url = reverse(name, args=args)
     expected_url = f'{login_url}?next={url}'
